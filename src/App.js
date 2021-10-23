@@ -1,5 +1,11 @@
+import { TodoList } from "./features/TodoList";
+
 function App() {
-  return <div className="App">Todo list</div>;
+  return (
+    <div className="container">
+      <TodoList />
+    </div>
+  );
 }
 
 export default App;

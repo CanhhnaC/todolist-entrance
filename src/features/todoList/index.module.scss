@@ -1,0 +1,22 @@
+.root {
+  display: flex;
+  flex-wrap: wrap;
+
+  .newTask,
+  .todoList {
+    position: relative;
+    width: 100%;
+    border: 1px solid #000000;
+  }
+
+  .newTask {
+    flex: 0 0 40%;
+    max-width: 40%;
+  }
+
+  .todoList {
+    flex: 0 0 60%;
+    max-width: 60%;
+    border-left: 0;
+  }
+}
