@@ -31,13 +31,14 @@ export const Task = ({ title, isCompleted, description, priority, date, id }) =>
 
   return (
     <div>
-      <div>
-        <div>
+      <div className="flex justify-between items-center p-5 border border-black">
+        <div className="flex space-x-2 items-center">
           <input type="checkbox" checked={isCompleted} onChange={handleToggleComplete} />
-          <div>{title}</div>
+          <div className="text-lg">{title}</div>
         </div>
-        <div>
+        <div className="space-x-2">
           <button
+            className="btn btn-blue"
             onClick={() => {
               setIsExpanded(!isExpanded);
             }}
@@ -45,6 +46,7 @@ export const Task = ({ title, isCompleted, description, priority, date, id }) =>
             Detail
           </button>
           <button
+            className="btn btn-danger"
             onClick={() => {
               handleRemoveTask();
             }}
@@ -53,7 +55,11 @@ export const Task = ({ title, isCompleted, description, priority, date, id }) =>
           </button>
         </div>
       </div>
-      {isExpanded && <TaskForm initialValues={{ title, description, priority, date }} onSubmit={handleEditTask} />}
+      {isExpanded && (
+        <div className="border border-t-0 border-black">
+          <TaskForm initialValues={{ title, description, priority, date }} onSubmit={handleEditTask} />
+        </div>
+      )}
     </div>
   );
 };

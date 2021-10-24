@@ -1,9 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 
-import { PRIORITY } from "../../constant";
-import { addTask } from "../../todoListSlice";
 import { TaskForm } from "../TaskForm";
+import { addTask } from "../../todoListSlice";
 
 export const NewTask = () => {
   const dispatch = useDispatch();
@@ -12,17 +11,5 @@ export const NewTask = () => {
     dispatch(addTask(data));
   };
 
-  const initialValues = {
-    title: "",
-    description: "",
-    date: undefined,
-    priority: PRIORITY.NORMAL
-  };
-
-  return (
-    <div>
-      <div>NewTask</div>
-      <TaskForm onSubmit={handleAddTask} initialValues={initialValues} isCreate />
-    </div>
-  );
+  return <TaskForm onSubmit={handleAddTask} isCreate />;
 };

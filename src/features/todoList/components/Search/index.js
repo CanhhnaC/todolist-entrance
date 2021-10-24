@@ -17,8 +17,14 @@ export const Search = () => {
   };
 
   return (
-    <div>
-      <input placeholder="Search..." autoFocus value={text} onChange={handleChange} onKeyUp={handleKeyUp} />
+    <div className="p-5">
+      <input
+        className="form-control"
+        placeholder="Search..."
+        value={text}
+        onChange={handleChange}
+        onKeyUp={handleKeyUp}
+      />
     </div>
   );
 };

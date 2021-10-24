@@ -1,11 +1,24 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { PRIORITY } from "../../constant";
+
+const currentDate = new Date().toISOString().substr(0, 10);
+
+const defaultValue = {
+  title: "",
+  description: "",
+  date: currentDate,
+  priority: "Normal"
+};
 
 export const TaskForm = ({ onSubmit, initialValues, isCreate }) => {
-  const { register, handleSubmit, reset } = useForm({ defaultValues: initialValues });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm({ defaultValues: initialValues ?? defaultValue });
 
-  const preHandle = (data, e) => {
+  const preHandleSubmit = (data) => {
     if (isCreate) {
       reset();
     }
@@ -14,30 +27,38 @@ export const TaskForm = ({ onSubmit, initialValues, isCreate }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(preHandle)}>
-      <input type="text" placeholder="Add new task..." {...register("title", {})} />
+    <form className="space-y-5 p-5" onSubmit={handleSubmit(preHandleSubmit)}>
+      <input
+        className="form-control"
+        type="text"
+        placeholder="Add new task..."
+        {...register("title", { required: true })}
+      />
+      {errors.title?.type === "required" && <span className="text-red-500">Title is required</span>}
 
       <div>
         <label>Description</label>
-        <textarea {...register("description", {})} />
+        <textarea rows={5} className="form-control" {...register("description", {})} />
       </div>
 
-      <div className="">
-        <div>
+      <div className="flex justify-between flex-col space-y-2 lg:space-y-0 lg:space-x-2 lg:flex-row">
+        <div className="flex-1">
           <label>Due Date</label>
-          <input type="date" {...register("date", {})} />
+          <input className="form-control" type="date" {...register("date", {})} min={currentDate} />
         </div>
-        <div>
+        <div className="flex-1">
           <label>Priority</label>
-          <select {...register("priority", {})}>
-            <option value={PRIORITY.LOW}>Low</option>
-            <option value={PRIORITY.NORMAL}>Normal</option>
-            <option value={PRIORITY.HIGH}>High</option>
+          <select className="form-control" {...register("priority", {})}>
+            <option value="Low">Low</option>
+            <option value="Normal">Normal</option>
+            <option value="High">High</option>
           </select>
         </div>
       </div>
 
-      <button type="submit">{isCreate ? "Add" : "Update"}</button>
+      <button className="btn btn-green w-full" type="submit">
+        {isCreate ? "Add" : "Update"}
+      </button>
     </form>
   );
 };

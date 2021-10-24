@@ -1,5 +1,6 @@
 import { createDraftSafeSelector, createSlice } from "@reduxjs/toolkit";
-import { randomId } from "src/utils";
+import sortBy from "lodash.sortby";
+import uuid from "uuid";
 
 const initialState = {
   tasks: [],
@@ -12,7 +13,7 @@ export const todoListSlice = createSlice({
   reducers: {
     addTask: (state, action) => {
       const newTask = {
-        id: randomId(),
+        id: uuid.v4(),
         isCompleted: false,
         ...action.payload
       };
@@ -30,23 +31,28 @@ export const todoListSlice = createSlice({
       const index = state.tasks.findIndex((task) => task.id === action.payload.id);
       if (index !== -1) state.tasks.splice(index, 1);
     },
+    toggleAllCompleted: (state) => {
+      state.tasks = state.tasks.filter((task) => !task.isCompleted);
+    },
     editSearch: (state, action) => {
       state.search = action.payload;
     }
   }
 });
 
-export const { addTask, toggleTask, editTask, removeTask, editSearch } = todoListSlice.actions;
+export const { addTask, toggleTask, editTask, removeTask, editSearch, toggleAllCompleted } = todoListSlice.actions;
 
 export const selectTasks = (state) => state.todoList.tasks;
 export const selectSearch = (state) => state.todoList.search;
 
+export const selectTaskLeft = createDraftSafeSelector(selectTasks, (tasks) => tasks?.some((task) => task.isCompleted));
+
 export const selectFilteredTasks = createDraftSafeSelector(selectTasks, selectSearch, (tasks, search) => {
-  console.log(tasks);
+  const sortedTasks = sortBy(tasks, (o) => o.date);
   if (search) {
-    return tasks?.filter((task) => task.title.toLowerCase().includes(search.toLowerCase()));
+    return sortedTasks?.filter((task) => task.title.toLowerCase().includes(search.toLowerCase()));
   } else {
-    return tasks;
+    return sortedTasks;
   }
 });
 
