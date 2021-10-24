@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { editSearch } from "../../todoListSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { editSearch, selectSearch } from "../../todoListSlice";
 
 export const Search = () => {
-  const [text, setText] = useState("");
+  const search = useSelector(selectSearch);
+  const [text, setText] = useState(search);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {

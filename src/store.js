@@ -6,3 +6,7 @@ export const store = configureStore({
     todoList: todoListReducer
   }
 });
+
+store.subscribe(() => {
+  localStorage.setItem("reduxState", JSON.stringify(store.getState()));
+});

@@ -36,11 +36,15 @@ export const todoListSlice = createSlice({
     },
     editSearch: (state, action) => {
       state.search = action.payload;
+    },
+    hydrate: (_, action) => {
+      return action.payload;
     }
   }
 });
 
-export const { addTask, toggleTask, editTask, removeTask, editSearch, toggleAllCompleted } = todoListSlice.actions;
+export const { addTask, toggleTask, editTask, removeTask, editSearch, toggleAllCompleted, hydrate } =
+  todoListSlice.actions;
 
 export const selectTasks = (state) => state.todoList.tasks;
 export const selectSearch = (state) => state.todoList.search;

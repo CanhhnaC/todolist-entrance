@@ -6,7 +6,23 @@ import { Provider } from "react-redux";
 
 import App from "./App";
 import { store } from "./store";
+import { hydrate } from "./features/TodoList/todoListSlice";
 import reportWebVitals from "./reportWebVitals";
+
+const getTodosFromLocalStorage = () => {
+  try {
+    const persistedState = localStorage.getItem("reduxState");
+    if (persistedState) return JSON.parse(persistedState);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const todos = getTodosFromLocalStorage();
+
+if (todos) {
+  store.dispatch(hydrate(todos?.todoList));
+}
 
 ReactDOM.render(
   <Provider store={store}>
